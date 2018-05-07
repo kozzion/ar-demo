@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">locationar</string>
+    <string name="pluto">pluto</string>
+    <string name="neptune">neptune</string>
+    <string name="uranus">uranus</string>
+    <string name="jupiter">jupiter</string>
+    <string name="saturn">saturn</string>
+    <string name="mars">mars</string>
+    <string name="sun">sun</string>
+    <string name="mercury">mercury</string>
+    <string name="moon">moon</string>
+    <string name="venus">venus</string>
+    <string name="earth">earth</string>
+</resources>

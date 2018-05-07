@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "354362200643",
+    "firebase_url": "https://locationar-c7301.firebaseio.com",
+    "project_id": "locationar-c7301",
+    "storage_bucket": "locationar-c7301.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:354362200643:android:d84c9777fe1a111e",
+        "android_client_info": {
+          "package_name": "com.locationar.locationar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "354362200643-1a221ts55v2uc8cvitve90j4899vaehv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.locationar.locationar",
+            "certificate_hash": "c9318b3831807ab70a67a75a5ca22164b6638e05"
+          }
+        },
+        {
+          "client_id": "354362200643-osa2fj3c50o99mg82tjia6sao45ujm4j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJOQfEJ-Mbz9oAnYH_b6ScT5Hxx3abx2E"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "354362200643-osa2fj3c50o99mg82tjia6sao45ujm4j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
