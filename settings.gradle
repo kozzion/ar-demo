@@ -1,5 +1,4 @@
 include ':app'
 
-include 'ar-coordinate'
-project(':ar-coordinate').projectDir = new File(settingsDir, '../ar-coordinate/coordinate')
-
+include ':ar-coordinate'
+project(':ar-coordinate').projectDir = new File('../ar-coordinate')

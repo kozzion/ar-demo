@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">locationar</string>
+    <string name="app_name">AR-Demo</string>
+
     <string name="pluto">pluto</string>
     <string name="neptune">neptune</string>
     <string name="uranus">uranus</string>
@@ -11,4 +12,7 @@
     <string name="moon">moon</string>
     <string name="venus">venus</string>
     <string name="earth">earth</string>
+
+    <string name="rad_rigth_ascention">Rigth Ascention</string>
+    <string name="rad_rigth_declenation">Declenation</string>
 </resources>

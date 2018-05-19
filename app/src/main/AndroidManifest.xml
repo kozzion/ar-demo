@@ -23,7 +23,6 @@
             android:value="AIzaSyBLQ8fctjZzM7Gc2kl8UQMDLVl-1qtIl1k"/>
 
 
-
         <activity android:name="com.kozzion.ar.activity.ActivityCamera">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,6 +33,11 @@
 
         <activity android:name="com.kozzion.ar.activity.ActivityMap">
         </activity>
+
+        <activity android:name=".activity.ActivityLocation" />
+
+
+
         <service
             android:name="com.kozzion.ar.service.ServiceLocationManager"
             android:exported="false" />
@@ -41,7 +45,6 @@
         <service
             android:name="com.kozzion.ar.service.ServiceARNode"
             android:exported="false" />
-
 
         <service
             android:name="com.kozzion.ar.service.ServiceOrientation"

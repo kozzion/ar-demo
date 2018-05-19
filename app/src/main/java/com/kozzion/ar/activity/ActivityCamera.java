@@ -25,6 +25,7 @@ import com.kozzion.ar.event.EventRequestARNodeListUpdate;
 import com.kozzion.ar.event.EventUpdateCurrentLocation;
 import com.kozzion.ar.event.EventARNodeListUpdate;
 import com.kozzion.ar.R;
+import com.kozzion.ar.event.EventUpdateOrientation;
 import com.kozzion.ar.view.ARCamera;
 import com.kozzion.ar.view.ViewOverlayAR;
 
@@ -33,7 +34,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.BindView;
 
-public class ActivityCamera extends ActivityBase implements SensorEventListener {
+public class ActivityCamera extends ActivityBase {
 
     private final static int REQUEST_CAMERA_PERMISSIONS_CODE = 11;
     public static final int REQUEST_LOCATION_PERMISSIONS_CODE = 0;
@@ -59,10 +60,6 @@ public class ActivityCamera extends ActivityBase implements SensorEventListener 
     private Camera mCamera;
     private ARCamera mARCamera;
 
-    private SensorManager mSensorManager;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +67,6 @@ public class ActivityCamera extends ActivityBase implements SensorEventListener 
         setContentView(R.layout.activity_camera);
 
         mButtonMap.setOnClickListener(view -> ActivityMap.start(ActivityCamera.this));
-
-        mSensorManager = (SensorManager) this.getSystemService(SENSOR_SERVICE);
         mViewOverlay = new ViewOverlayAR(this);
     }
 
@@ -81,7 +76,6 @@ public class ActivityCamera extends ActivityBase implements SensorEventListener 
         EventBus.getDefault().post(new EventRequestARNodeListUpdate());
         requestLocationPermission();
         requestCameraPermission();
-        registerSensors();
         initAROverlayView();
     }
 
@@ -162,35 +156,6 @@ public class ActivityCamera extends ActivityBase implements SensorEventListener 
         }
     }
 
-    private void registerSensors() {
-        mSensorManager.registerListener(this,
-                mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR),
-                SensorManager.SENSOR_DELAY_FASTEST);
-    }
-
-    @Override
-    public void onSensorChanged(SensorEvent sensorEvent) {
-        if (sensorEvent.sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) {
-            float[] rotationMatrixFromVector = new float[16];
-            float[] projectionMatrix = new float[16];
-            float[] rotatedProjectionMatrix = new float[16];
-
-            SensorManager.getRotationMatrixFromVector(rotationMatrixFromVector, sensorEvent.values);
-            //Log.e(TAG, "onSensorChanged: " + sensorEvent.values[0] + sensorEvent.values[1] + sensorEvent.values[2] + sensorEvent.values[3] );
-            if (mARCamera != null) {
-                projectionMatrix = mARCamera.getProjectionMatrix();
-            }
-
-            Matrix.multiplyMM(rotatedProjectionMatrix, 0, projectionMatrix, 0, rotationMatrixFromVector, 0);
-            this.mViewOverlay.updateRotatedProjectionMatrix(rotatedProjectionMatrix);
-        }
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int i) {
-        //do nothing
-    }
-
     @Subscribe
     public void onEvent(EventUpdateCurrentLocation event) {
         //Log.e(TAG, "EventUpdateCurrentLocation");
@@ -204,9 +169,24 @@ public class ActivityCamera extends ActivityBase implements SensorEventListener 
 
     @Subscribe
     public void onEvent(EventARNodeListUpdate event) {
-        Log.e(TAG, "EventUpdateCurrentLocation");
+
         if (mViewOverlay !=null) {
             //mViewOverlay.updateARNodeList(event.mARNodeList);
+        }
+    }
+
+    @Subscribe
+    public void onEvent(EventUpdateOrientation event) {
+        Log.e(TAG, "EventUpdateOrientation");
+        if ((mViewOverlay !=null) && (mARCamera != null)) {
+            float[] projectionMatrix = new float[16];
+            float[] rotatedProjectionMatrix = new float[16];
+            if (mARCamera != null) {
+                projectionMatrix = mARCamera.getProjectionMatrix();
+            }
+
+            Matrix.multiplyMM(rotatedProjectionMatrix, 0, projectionMatrix, 0, event.mRotationMatrix, 0);
+            this.mViewOverlay.updateRotatedProjectionMatrix(rotatedProjectionMatrix);
         }
     }
 }
