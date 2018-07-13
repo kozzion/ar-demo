@@ -27,10 +27,13 @@ public class ApplicationMain extends Application {
     public void onCreate() {
         super.onCreate();
         TAG = this.getClass().getName();
-        Log.e(TAG, "onCreate: ");
+        Log.e(TAG, "onCreate1: ");
         ServiceLocationManager.init(this);
+        Log.e(TAG, "onCreate2: ");
         ServiceARNode.init(this);
+        Log.e(TAG, "onCreate3: ");
         ServiceOrientation.init(this);
+        Log.e(TAG, "onCreate4: ");
 
         /*StoroBuilder.configure(Const.Build.CACHE_SIZE)
                 .setDefaultCacheDirectory(this)

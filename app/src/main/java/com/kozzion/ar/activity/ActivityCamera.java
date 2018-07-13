@@ -177,16 +177,28 @@ public class ActivityCamera extends ActivityBase {
 
     @Subscribe
     public void onEvent(EventUpdateOrientation event) {
-        Log.e(TAG, "EventUpdateOrientation");
         if ((mViewOverlay !=null) && (mARCamera != null)) {
-            float[] projectionMatrix = new float[16];
-            float[] rotatedProjectionMatrix = new float[16];
-            if (mARCamera != null) {
-                projectionMatrix = mARCamera.getProjectionMatrix();
-            }
-
-            Matrix.multiplyMM(rotatedProjectionMatrix, 0, projectionMatrix, 0, event.mRotationMatrix, 0);
+            float [] rotationVector =  event.getRotationVector();
+            float [] rotationMatrix = new float[16];
+            float [] rotatedProjectionMatrix = new float[16];
+            float [] projectionMatrix = mARCamera.getProjectionMatrix();
+            // Log.e(TAG, printArray(projectionMatrix));
+            // Log.e(TAG, printArray(rotationVector));
+            SensorManager.getRotationMatrixFromVector(rotationMatrix, rotationVector);
+            // Log.e(TAG, printArray(rotationMatrix));
+            Matrix.multiplyMM(rotatedProjectionMatrix, 0, projectionMatrix, 0, rotationMatrix, 0);
+            // Log.e(TAG,  printArray(rotatedProjectionMatrix));
             this.mViewOverlay.updateRotatedProjectionMatrix(rotatedProjectionMatrix);
+
+
         }
+    }
+
+    private String printArray(float[] array) {
+        String s = "";
+        for (int i = 0; i < array.length; i++) {
+            s = s +  array[i] + "  ";
+        }
+        return s;
     }
 }

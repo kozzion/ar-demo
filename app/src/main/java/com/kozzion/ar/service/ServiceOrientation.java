@@ -107,13 +107,13 @@ public class ServiceOrientation extends ServiceBase {
     }
 
     public static void init(Context context) {
-        context.startService(new Intent(context, ServiceLocationManager.class));
+        context.startService(new Intent(context, ServiceOrientation.class));
     }
 
 
     public void onSensorChanged(SensorEvent sensorEvent) {
-        Log.e(TAG, "onSensorChanged:  " + sensorEvent.sensor.getType() );
-        Log.e(TAG, "onSensorChanged:  " + sensorEvent.values[0] );
+        //Log.e(TAG, "onSensorChanged:  " + sensorEvent.sensor.getName() );
+        //Log.e(TAG, "onSensorChanged:  " + sensorEvent.values[0] );
         switch (sensorEvent.sensor.getType())
         {
             case Sensor.TYPE_MAGNETIC_FIELD_UNCALIBRATED:
@@ -133,7 +133,7 @@ public class ServiceOrientation extends ServiceBase {
                 break;
 
             case Sensor.TYPE_ROTATION_VECTOR:
-                mValuesRotation = sensorEvent.values;
+                mValuesRotation = sensorEvent.values.clone();
                 updateOrientation();
                 break;
         }
@@ -141,11 +141,22 @@ public class ServiceOrientation extends ServiceBase {
 
     public void updateOrientation()
     {
-        Log.e(TAG, "updateOrientation: ");
-        float [] rotationVector = mValuesRotation.clone();
-        float[] rotationMatrix = new float[16];
-        SensorManager.getOrientation(rotationMatrix, rotationVector);
-        EventBus.getDefault().postSticky(new EventUpdateOrientation(rotationVector, rotationMatrix));
+        //Log.e(TAG, "updateOrientation: ");
+
+        EventBus.getDefault().post(new EventUpdateOrientation(mValuesRotation));
+
+
+
+
+//        float R[] = new float[9];
+//        float I[] = new float[9];
+//        boolean success = SensorManager.getRotationMatrix(R, I, mValuesGravety, mValuesMagnetic);
+//        if (success) {
+//            float orientation[] = new float[3];
+//
+//            SensorManager.getOrientation(R, orientation);
+//            //azimut = orientation[0]; // orientation contains: azimut, pitch and roll
+//        }
     }
 
 
